@@ -1,4 +1,4 @@
-module github.com/go-cinch/common/plugins/gorm/tenant
+module github.com/chenlei-github/common/plugins/gorm/tenant
 
 go 1.20
 
