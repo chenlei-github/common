@@ -33,5 +33,3 @@ require (
 	github.com/vmihailenco/msgpack/v5 v5.3.5 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 )
-
-replace github.com/go-cinch/common/plugins/gorm/tenant => github.com/chenlei-github/common/plugins/gorm/tenant v1.0.0
