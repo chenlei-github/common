@@ -10,14 +10,15 @@ import (
 )
 
 type Options struct {
-	dsn         map[string]string
-	sqlFile     embed.FS
-	sqlRoot     string
-	config      *gorm.Config
-	maxIdle     int
-	maxOpen     int
-	maxLifetime time.Duration
-	skipMigrate bool
+	dsn                map[string]string
+	sqlFile            embed.FS
+	sqlRoot            string
+	config             *gorm.Config
+	maxIdle            int
+	maxOpen            int
+	maxLifetime        time.Duration
+	skipMigrate        bool
+	migrateChangeTable string
 }
 
 func WithDSN(tenant, dsn string) func(*Options) {
@@ -34,6 +35,12 @@ func WithDSN(tenant, dsn string) func(*Options) {
 func WithSQLFile(fs embed.FS) func(*Options) {
 	return func(options *Options) {
 		getOptionsOrSetDefault(options).sqlFile = fs
+	}
+}
+
+func WithMigrateChangeTable(tb string) func(*Options) {
+	return func(options *Options) {
+		getOptionsOrSetDefault(options).migrateChangeTable = tb
 	}
 }
 
@@ -82,8 +89,9 @@ func WithSkipMigrate(flag bool) func(*Options) {
 func getOptionsOrSetDefault(options *Options) *Options {
 	if options == nil {
 		return &Options{
-			dsn:     make(map[string]string),
-			sqlRoot: "migrations",
+			dsn:                make(map[string]string),
+			sqlRoot:            "migrations",
+			migrateChangeTable: "_db_migrations",
 			config: &gorm.Config{
 				NamingStrategy: schema.NamingStrategy{
 					SingularTable: true,

@@ -126,6 +126,7 @@ func (t *Tenant) migrate(dsn string) (db *gorm.DB, err error) {
 		migrate.WithUri(dsn),
 		migrate.WithFs(t.ops.sqlFile),
 		migrate.WithFsRoot(t.ops.sqlRoot),
+		migrate.WithChangeTable(t.ops.migrateChangeTable),
 		migrate.WithBefore(func(ctx context.Context) (err error) {
 			db, err = gorm.Open(m.Open(dsn), t.ops.config)
 			if err != nil {
